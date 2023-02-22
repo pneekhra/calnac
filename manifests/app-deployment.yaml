@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    type: postgres
+  name: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: postgres
+  template:
+    metadata:
+      labels:
+        type: postgres
+    spec:
+      containers:
+        - env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: compose-postgres
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://db:5432/compose-postgres
+            - name: SPRING_DATASOURCE_USERNAME
+              value: compose-postgres
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: update
+          image: calnac:latest
+          imagePullPolicy: "IfNotPresent"
+          name: app
+          resources: {}
+      restartPolicy: Always
+status: {}

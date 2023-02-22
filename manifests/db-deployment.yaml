@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    type: postgres
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: postgres
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        type: postgres
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_PASSWORD
+              value: compose-postgres
+            - name: POSTGRES_USER
+              value: compose-postgres
+          image: postgres:13.1-alpine
+          name: db
+          resources: {}
+      restartPolicy: Always
+status: {}
